@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>세인학원 시험 분석지 · 능동중 3학년</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0f1e;
+    --accent: #4f8ef7;
+    --gold: #f5c842;
+    --blue: #3b82f6;
+    --orange: #f97316;
+    --red: #ef4444;
+    --green: #22c55e;
+    --card-bg: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--navy); color: #e2e8f0; font-family: 'Noto Sans KR', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+  .hero {
+    position: relative; height: 360px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0a0f1e 0%, #1a2340 50%, #0d1b3e 100%);
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 40% at 20% 50%, rgba(79,142,247,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 50% at 80% 30%, rgba(245,200,66,0.07) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(79,142,247,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(79,142,247,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .brand { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 6px; color: var(--accent); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.1s; }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(42px, 7vw, 72px); letter-spacing: 4px; color: #fff; text-align: center; line-height: 1; opacity: 0; animation: fadeUp 0.6s ease forwards 0.25s; }
+  .hero-title span { color: var(--gold); }
+  .hero-school { margin-top: 14px; font-size: 20px; font-weight: 700; color: rgba(255,255,255,0.8); letter-spacing: 4px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.38s; }
+  .hero-sub { margin-top: 8px; font-size: 13px; color: rgba(255,255,255,0.4); letter-spacing: 3px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.48s; }
+  .hero-badge { margin-top: 20px; display: flex; gap: 10px; opacity: 0; animation: fadeUp 0.6s ease forwards 0.58s; }
+  .badge { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; letter-spacing: 1px; border: 1px solid; }
+  .badge-blue { border-color: var(--blue); color: var(--blue); background: rgba(59,130,246,0.1); }
+  .badge-gold { border-color: var(--gold); color: var(--gold); background: rgba(245,200,66,0.1); }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 60px 24px 80px; }
+  .section { margin-bottom: 70px; opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .section.visible { opacity: 1; transform: translateY(0); }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 3px; color: var(--accent); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+  .sum-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 24px 20px; text-align: center; transition: transform 0.3s, border-color 0.3s; }
+  .sum-card:hover { transform: translateY(-4px); border-color: rgba(79,142,247,0.3); }
+  .sum-card .num { font-family: 'Bebas Neue', sans-serif; font-size: 44px; line-height: 1; color: #fff; }
+  .sum-card .num span { font-size: 22px; color: rgba(255,255,255,0.5); }
+  .sum-card .label { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 6px; letter-spacing: 1px; }
+
+  .q-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .q-table thead tr { background: rgba(79,142,247,0.12); }
+  .q-table th { padding: 12px 14px; text-align: center; font-size: 11px; letter-spacing: 1.5px; color: var(--accent); border-bottom: 1px solid var(--border); font-weight: 700; }
+  .q-table td { padding: 12px 14px; text-align: center; border-bottom: 1px solid var(--border); color: rgba(255,255,255,0.85); }
+  .q-table tr:hover td { background: rgba(255,255,255,0.03); }
+  .highlight-row td { background: rgba(245,200,66,0.04) !important; }
+  .highlight-row:hover td { background: rgba(245,200,66,0.07) !important; }
+
+  .diff { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .diff-하 { background: rgba(59,130,246,0.2); color: #93c5fd; border: 1px solid rgba(59,130,246,0.3); }
+  .diff-중 { background: rgba(245,158,11,0.2); color: #fcd34d; border: 1px solid rgba(245,158,11,0.3); }
+  .diff-중상 { background: rgba(249,115,22,0.2); color: #fdba74; border: 1px solid rgba(249,115,22,0.3); }
+  .diff-상 { background: rgba(239,68,68,0.2); color: #fca5a5; border: 1px solid rgba(239,68,68,0.3); }
+
+  .src { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+  .src-교과서 { background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.25); }
+  .src-학습지 { background: rgba(34,197,94,0.15); color: #86efac; border: 1px solid rgba(34,197,94,0.25); }
+  .src-교과서응용 { background: rgba(168,85,247,0.15); color: #d8b4fe; border: 1px solid rgba(168,85,247,0.25); }
+
+  .type { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; }
+  .type-선택 { background: rgba(34,197,94,0.15); color: #86efac; border: 1px solid rgba(34,197,94,0.25); }
+  .type-서술 { background: rgba(168,85,247,0.15); color: #d8b4fe; border: 1px solid rgba(168,85,247,0.25); }
+
+  .ans { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--gold); }
+
+  .topic-row { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+  .topic-label { width: 200px; font-size: 13px; color: rgba(255,255,255,0.75); flex-shrink: 0; }
+  .bar-bg { flex: 1; height: 10px; background: rgba(255,255,255,0.07); border-radius: 5px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 5px; width: 0; transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
+  .topic-count { width: 36px; text-align: right; font-size: 13px; font-family: 'Bebas Neue', sans-serif; color: rgba(255,255,255,0.5); }
+
+  .points-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .points-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+  .points-card h4 { font-size: 11px; letter-spacing: 1.5px; color: rgba(255,255,255,0.4); margin-bottom: 10px; font-weight: 700; }
+  .points-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .points-row:last-child { border-bottom: none; }
+  .points-row .pts { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--gold); }
+
+  .warn-card { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2); border-radius: 14px; padding: 20px 24px; margin-bottom: 16px; }
+  .warn-card h4 { color: #fca5a5; font-size: 13px; margin-bottom: 8px; letter-spacing: 1px; }
+  .warn-card p { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.8; }
+  .tip-card { background: rgba(79,142,247,0.06); border: 1px solid rgba(79,142,247,0.2); border-radius: 14px; padding: 20px 24px; margin-bottom: 16px; }
+  .tip-card h4 { color: #93c5fd; font-size: 13px; margin-bottom: 8px; letter-spacing: 1px; }
+  .tip-card p { font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.8; }
+
+  .footer { text-align: center; padding: 40px 24px; border-top: 1px solid var(--border); color: rgba(255,255,255,0.2); font-size: 12px; letter-spacing: 2px; }
+  .footer strong { color: var(--accent); font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 3px; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 640px) { .points-grid { grid-template-columns: 1fr; } .q-table { font-size: 12px; } .q-table th, .q-table td { padding: 9px 8px; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="brand">세인학원 · SEIN ACADEMY</div>
+  <div class="hero-title">2026 <span>1학기</span> 1차시험</div>
+  <div class="hero-school">능동중 3학년 수학</div>
+  <div class="hero-sub">4면 총 16문항 · 100점</div>
+  <div class="hero-badge">
+    <span class="badge badge-blue">선택형 6문항</span>
+    <span class="badge badge-gold">서술형 10문항</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section">
+    <div class="section-title">OVERVIEW</div>
+    <div class="summary-grid">
+      <div class="sum-card"><div class="num"><span class="count-num" data-target="100">0</span><span>점</span></div><div class="label">총 배점</div></div>
+      <div class="sum-card"><div class="num"><span class="count-num" data-target="16">0</span><span>문</span></div><div class="label">총 문항 수</div></div>
+      <div class="sum-card"><div class="num"><span class="count-num" data-target="6">0</span><span>문</span></div><div class="label">선택형</div></div>
+      <div class="sum-card"><div class="num"><span class="count-num" data-target="10">0</span><span>문</span></div><div class="label">서술형</div></div>
+      <div class="sum-card"><div class="num"><span class="count-num" data-target="4">0</span><span>면</span></div><div class="label">시험지 분량</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">문항별 분석</div>
+    <div style="overflow-x:auto;">
+    <table class="q-table">
+      <thead>
+        <tr><th>번호</th><th>유형</th><th>단원 / 주제</th><th>출처</th><th>배점</th><th>난이도</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td><td><span class="type type-선택">선택</span></td>
+          <td>제곱근과 실수 — 제곱근 성질 옳은 것</td>
+          <td><span class="src src-교과서">교과서</span></td>
+          <td><span class="ans">4</span></td><td><span class="diff diff-하">하</span></td>
+        </tr>
+        <tr>
+          <td>2</td><td><span class="type type-선택">선택</span></td>
+          <td>근호 포함 식의 계산 — 계산 결과 옳은 것</td>
+          <td><span class="src src-교과서">교과서</span></td>
+          <td><span class="ans">5</span></td><td><span class="diff diff-중">중</span></td>
+        </tr>
+        <tr>
+          <td>3</td><td><span class="type type-선택">선택</span></td>
+          <td>제곱근 교과서응용 — 낙하 시간 √(h/4.9), 제곱근표로 1715m 계산</td>
+          <td><span class="src src-교과서응용">교과서응용</span></td>
+          <td><span class="ans">5</span></td><td><span class="diff diff-중">중</span></td>
+        </tr>
+        <tr>
+          <td>4</td><td><span class="type type-선택">선택</span></td>
+          <td>인수분해 — 완전제곱식 되지 않는 것</td>
+          <td><span class="src src-교과서">교과서</span></td>
+          <td><span class="ans">4</span></td><td><span class="diff diff-하">하</span></td>
+        </tr>
+        <tr>
+          <td>5</td><td><span class="type type-선택">선택</span></td>
+          <td>인수분해 — x²+12x+k=(x+a)(x+b), k 최댓값</td>
+          <td><span class="src src-교과서">교과서</span></td>
+          <td><span class="ans">5</span></td><td><span class="diff diff-중">중</span></td>
+        </tr>
+        <tr>
+          <td>6</td><td><span class="type type-선택">선택</span></td>
+          <td>곱셈공식 — 직사각형 넓이 (2x+1)(x+5) 전개</td>
+          <td><span class="src src-교과서">교과서</span></td>
+          <td><span class="ans">5</span></td><td><span class="diff diff-중">중</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td>서1</td><td><span class="type type-서술">서술</span></td>
+          <td>제곱근 정의 — (가)(나) 채우기 + A→B→C 관계식</td>
+          <td><span class="src src-교과서">교과서</span></td>
+          <td><span class="ans">6</span></td><td><span class="diff diff-중">중</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td>서2</td><td><span class="type type-서술">서술</span></td>
+          <td>실수 대소관계 — √a²−2ab+b²>0, a/b<0 조건 → 부호 판단 + 절댓값 식 간소화</td>
+          <td><span class="src src-교과서">교과서</span></td>
+          <td><span class="ans">7</span></td><td><span class="diff diff-중상">중상</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td>서3</td><td><span class="type type-서술">서술</span></td>
+          <td>실수와 수직선 — 모눈종이 정사각형 ABCD, AB=AQ, AD=AP, q−p 값</td>
+          <td><span class="src src-교과서">교과서</span></td>
+          <td><span class="ans">7</span></td><td><span class="diff diff-중상">중상</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td>서4</td><td><span class="type type-서술">서술</span></td>
+          <td>제곱근과 실수 — 한 변 10cm 정사각형 중점 연결 반복, 2·3·4단계 둘레 합</td>
+          <td><span class="src src-교과서응용">교과서응용</span></td>
+          <td><span class="ans">8</span></td><td><span class="diff diff-상">상</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td>서5</td><td><span class="type type-서술">서술</span></td>
+          <td>제곱근과 실수 — 주사위 두 개 √48ab가 자연수 될 확률</td>
+          <td><span class="src src-교과서응용">교과서응용</span></td>
+          <td><span class="ans">8</span></td><td><span class="diff diff-상">상</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td>서6</td><td><span class="type type-서술">서술</span></td>
+          <td>곱셈공식 응용 — √(26²−10²), 52²−208+2² 인수분해로 계산</td>
+          <td><span class="src src-교과서응용">교과서응용</span></td>
+          <td><span class="ans">6</span></td><td><span class="diff diff-중">중</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td>서7</td><td><span class="type type-서술">서술</span></td>
+          <td>근호 포함 계산 — x, y 켤레 무리수 유리화 후 x²+2xy+y² 계산</td>
+          <td><span class="src src-학습지">학습지</span></td>
+          <td><span class="ans">8</span></td><td><span class="diff diff-상">상</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td>서8</td><td><span class="type type-서술">서술</span></td>
+          <td>인수분해 — (3x²+8x−5)(3x²+8x+7)+20 치환 인수분해</td>
+          <td><span class="src src-교과서응용">교과서응용</span></td>
+          <td><span class="ans">6</span></td><td><span class="diff diff-중">중</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td>서9</td><td><span class="type type-서술">서술</span></td>
+          <td>인수분해 — 곱셈 오류 역산, a 구하기 + 바른 전개식</td>
+          <td><span class="src src-학습지">학습지</span></td>
+          <td><span class="ans">7</span></td><td><span class="diff diff-중">중</span></td>
+        </tr>
+        <tr class="highlight-row">
+          <td>서10</td><td><span class="type type-서술">서술</span></td>
+          <td>인수분해 — 두 이차식 공통인수 3x+1, p·q 각각 구하기</td>
+          <td><span class="src src-학습지">학습지</span></td>
+          <td><span class="ans">7</span></td><td><span class="diff diff-중상">중상</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">단원별 출제 비중</div>
+    <div class="topic-row">
+      <div class="topic-label">제곱근과 실수</div>
+      <div class="bar-bg"><div class="bar-fill" style="background: linear-gradient(90deg,#3b82f6,#60a5fa);" data-width="56"></div></div>
+      <div class="topic-count">5문</div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-label">인수분해</div>
+      <div class="bar-bg"><div class="bar-fill" style="background: linear-gradient(90deg,#a855f7,#c084fc);" data-width="50"></div></div>
+      <div class="topic-count">5문</div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-label">근호 포함 식의 계산</div>
+      <div class="bar-bg"><div class="bar-fill" style="background: linear-gradient(90deg,#f97316,#fb923c);" data-width="22"></div></div>
+      <div class="topic-count">2문</div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-label">실수와 수직선</div>
+      <div class="bar-bg"><div class="bar-fill" style="background: linear-gradient(90deg,#f5c842,#fde68a);" data-width="22"></div></div>
+      <div class="topic-count">2문</div>
+    </div>
+    <div class="topic-row">
+      <div class="topic-label">곱셈공식</div>
+      <div class="bar-bg"><div class="bar-fill" style="background: linear-gradient(90deg,#22c55e,#4ade80);" data-width="22"></div></div>
+      <div class="topic-count">2문</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">난이도 · 배점 분포</div>
+    <div class="points-grid">
+      <div class="points-card">
+        <h4>난이도별 문항 수</h4>
+        <div class="points-row"><span><span class="diff diff-하">하</span></span><span class="pts">2문</span></div>
+        <div class="points-row"><span><span class="diff diff-중">중</span></span><span class="pts">7문</span></div>
+        <div class="points-row"><span><span class="diff diff-중상">중상</span></span><span class="pts">3문</span></div>
+        <div class="points-row"><span><span class="diff diff-상">상</span></span><span class="pts">3문</span></div>
+      </div>
+      <div class="points-card">
+        <h4>배점 · 출처 구성</h4>
+        <div class="points-row"><span>4점</span><span class="pts">2문</span></div>
+        <div class="points-row"><span>5점</span><span class="pts">3문</span></div>
+        <div class="points-row"><span>6점</span><span class="pts">3문</span></div>
+        <div class="points-row"><span>7점</span><span class="pts">3문</span></div>
+        <div class="points-row"><span>8점</span><span class="pts">3문</span></div>
+        <div class="points-row"><span>출처 — 교과서</span><span class="pts">6문</span></div>
+        <div class="points-row"><span>출처 — 교과서응용</span><span class="pts">5문</span></div>
+        <div class="points-row"><span>출처 — 학습지</span><span class="pts">3문</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">지도 포인트</div>
+    <div class="warn-card">
+      <h4>⚠ 고난도 함정 구간</h4>
+      <p>
+        <strong>서4 (8점) — 정사각형 중점 연결 반복:</strong> 한 변 10cm → 2단계 한 변 5√2, 3단계 5, 4단계 5√2/2. 각 단계 둘레를 무리수로 표현 후 합산. 등비수열 개념 없이 패턴으로 풀어야 하므로 규칙 발견 훈련이 필수.<br><br>
+        <strong>서5 (8점) — 주사위 확률 + 제곱근:</strong> √48ab = 4√(3ab)가 자연수 → 3ab가 완전제곱수. a, b ∈ {1,2,3,4,5,6}에서 만족하는 순서쌍 (a,b) 체계적 열거. 빠뜨리면 오답.<br><br>
+        <strong>서7 (8점) — 켤레 무리수 유리화 + 곱셈공식:</strong> x+y 통분·유리화 후 (x+y)² = x²+2xy+y² 적용. 분모 유리화 과정의 부호 실수와 통분 오류가 함정.
+      </p>
+    </div>
+    <div class="tip-card">
+      <h4>💡 수업 연계 포인트</h4>
+      <p>
+        <strong>서2 (절댓값 간소화):</strong> √(a−b)²=|a−b|, 부호 조건 대입 → 절댓값 벗기기. 조건 해석 → 부호 판단 → 절댓값 제거 3단계를 루틴화하는 데 최적.<br><br>
+        <strong>서8 (치환 인수분해):</strong> 반복되는 3x²+8x를 A로 치환하면 (A−6)(A+6)+20 = A²−16 = (A+4)(A−4). 치환 전략 첫 도입 문항으로 활용 가능.<br><br>
+        <strong>서9 (곱셈 오류 역산):</strong> 잘못된 결과 15x²+17x+4 ÷ (5x+4) → 몫 3x+a 역산. 나눗셈 검산 + 인수분해 연결 복습에 효과적.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>세인학원</strong><br>
+  2026학년도 1학기 1차시험 · 능동중 3학년 수학과 분석지<br>
+  본 자료는 세인학원 내부 교수 자료입니다.
+</div>
+
+<script>
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        e.target.querySelectorAll('.bar-fill').forEach(b => { const w = b.getAttribute('data-width'); if(w) b.style.width = w+'%'; });
+      }
+    });
+  }, { threshold: 0.1 });
+  sections.forEach(s => observer.observe(s));
+
+  function countUp(el) {
+    const target = parseInt(el.getAttribute('data-target'));
+    let cur = 0; const step = target/60;
+    const t = setInterval(() => { cur += step; if(cur >= target){ cur = target; clearInterval(t); } el.textContent = Math.floor(cur); }, 16);
+  }
+  const co = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.querySelectorAll('.count-num').forEach(countUp); co.unobserve(e.target); } });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.summary-grid').forEach(g => co.observe(g));
+</script>
+</body>
+</html>

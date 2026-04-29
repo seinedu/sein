@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>세인학원 시험 분석지 · 내덕중 2학년</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --navy:#0a0f1e; --accent:#4f8ef7; --gold:#f5c842; --blue:#3b82f6; --red:#ef4444; --green:#22c55e; --card-bg:rgba(255,255,255,0.04); --border:rgba(255,255,255,0.08); }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--navy); color:#e2e8f0; font-family:'Noto Sans KR',sans-serif; min-height:100vh; overflow-x:hidden; }
+  .hero { position:relative; height:360px; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden; background:linear-gradient(135deg,#0a0f1e 0%,#1a2340 50%,#0d1b3e 100%); }
+  .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 40% at 20% 50%,rgba(79,142,247,0.12) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 80% 30%,rgba(245,200,66,0.07) 0%,transparent 60%); }
+  .hero-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(79,142,247,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(79,142,247,0.06) 1px,transparent 1px); background-size:40px 40px; }
+  .brand { font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:6px; color:var(--accent); margin-bottom:16px; opacity:0; animation:fadeUp 0.6s ease forwards 0.1s; }
+  .hero-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(42px,7vw,72px); letter-spacing:4px; color:#fff; text-align:center; line-height:1; opacity:0; animation:fadeUp 0.6s ease forwards 0.25s; }
+  .hero-title span { color:var(--gold); }
+  .hero-school { margin-top:14px; font-size:20px; font-weight:700; color:rgba(255,255,255,0.8); letter-spacing:4px; opacity:0; animation:fadeUp 0.6s ease forwards 0.38s; }
+  .hero-sub { margin-top:8px; font-size:13px; color:rgba(255,255,255,0.4); letter-spacing:3px; opacity:0; animation:fadeUp 0.6s ease forwards 0.48s; }
+  .hero-badge { margin-top:20px; display:flex; gap:10px; opacity:0; animation:fadeUp 0.6s ease forwards 0.58s; }
+  .badge { padding:5px 14px; border-radius:20px; font-size:12px; font-weight:700; letter-spacing:1px; border:1px solid; }
+  .badge-blue { border-color:var(--blue); color:var(--blue); background:rgba(59,130,246,0.1); }
+  .badge-gold { border-color:var(--gold); color:var(--gold); background:rgba(245,200,66,0.1); }
+  .container { max-width:1100px; margin:0 auto; padding:60px 24px 80px; }
+  .section { margin-bottom:70px; opacity:0; transform:translateY(40px); transition:opacity 0.7s ease,transform 0.7s ease; }
+  .section.visible { opacity:1; transform:translateY(0); }
+  .section-title { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:3px; color:var(--accent); margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+  .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+  .summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; }
+  .sum-card { background:var(--card-bg); border:1px solid var(--border); border-radius:14px; padding:24px 20px; text-align:center; transition:transform 0.3s,border-color 0.3s; }
+  .sum-card:hover { transform:translateY(-4px); border-color:rgba(79,142,247,0.3); }
+  .sum-card .num { font-family:'Bebas Neue',sans-serif; font-size:44px; line-height:1; color:#fff; }
+  .sum-card .num span { font-size:22px; color:rgba(255,255,255,0.5); }
+  .sum-card .label { font-size:12px; color:rgba(255,255,255,0.45); margin-top:6px; letter-spacing:1px; }
+  .q-table { width:100%; border-collapse:collapse; font-size:14px; }
+  .q-table thead tr { background:rgba(79,142,247,0.12); }
+  .q-table th { padding:12px 14px; text-align:center; font-size:11px; letter-spacing:1.5px; color:var(--accent); border-bottom:1px solid var(--border); font-weight:700; }
+  .q-table td { padding:12px 14px; text-align:center; border-bottom:1px solid var(--border); color:rgba(255,255,255,0.85); }
+  .q-table tr:hover td { background:rgba(255,255,255,0.03); }
+  .highlight-row td { background:rgba(245,200,66,0.04) !important; }
+  .highlight-row:hover td { background:rgba(245,200,66,0.07) !important; }
+  .diff { display:inline-block; padding:3px 12px; border-radius:20px; font-size:11px; font-weight:700; }
+  .diff-하 { background:rgba(59,130,246,0.2); color:#93c5fd; border:1px solid rgba(59,130,246,0.3); }
+  .diff-중 { background:rgba(245,158,11,0.2); color:#fcd34d; border:1px solid rgba(245,158,11,0.3); }
+  .diff-중상 { background:rgba(249,115,22,0.2); color:#fdba74; border:1px solid rgba(249,115,22,0.3); }
+  .diff-상 { background:rgba(239,68,68,0.2); color:#fca5a5; border:1px solid rgba(239,68,68,0.3); }
+  .src { display:inline-block; padding:3px 10px; border-radius:6px; font-size:11px; font-weight:700; }
+  .src-교과서 { background:rgba(59,130,246,0.15); color:#93c5fd; border:1px solid rgba(59,130,246,0.25); }
+  .src-교과서응용 { background:rgba(168,85,247,0.15); color:#d8b4fe; border:1px solid rgba(168,85,247,0.25); }
+  .type { display:inline-block; padding:3px 10px; border-radius:6px; font-size:11px; font-weight:700; }
+  .type-선택 { background:rgba(34,197,94,0.15); color:#86efac; border:1px solid rgba(34,197,94,0.25); }
+  .type-서술 { background:rgba(168,85,247,0.15); color:#d8b4fe; border:1px solid rgba(168,85,247,0.25); }
+  .ans { font-family:'Bebas Neue',sans-serif; font-size:18px; color:var(--gold); }
+  .topic-row { display:flex; align-items:center; gap:16px; margin-bottom:14px; }
+  .topic-label { width:200px; font-size:13px; color:rgba(255,255,255,0.75); flex-shrink:0; }
+  .bar-bg { flex:1; height:10px; background:rgba(255,255,255,0.07); border-radius:5px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:5px; width:0; transition:width 1.2s cubic-bezier(0.16,1,0.3,1); }
+  .topic-count { width:36px; text-align:right; font-size:13px; font-family:'Bebas Neue',sans-serif; color:rgba(255,255,255,0.5); }
+  .points-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .points-card { background:var(--card-bg); border:1px solid var(--border); border-radius:14px; padding:20px; }
+  .points-card h4 { font-size:11px; letter-spacing:1.5px; color:rgba(255,255,255,0.4); margin-bottom:10px; font-weight:700; }
+  .points-row { display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-bottom:1px solid var(--border); font-size:13px; }
+  .points-row:last-child { border-bottom:none; }
+  .points-row .pts { font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--gold); }
+  .special-card { background:rgba(245,200,66,0.06); border:1px solid rgba(245,200,66,0.2); border-radius:14px; padding:20px 24px; margin-bottom:16px; }
+  .special-card h4 { color:var(--gold); font-size:13px; margin-bottom:8px; letter-spacing:1px; }
+  .special-card p { font-size:13px; color:rgba(255,255,255,0.6); line-height:1.8; }
+  .warn-card { background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.2); border-radius:14px; padding:20px 24px; margin-bottom:16px; }
+  .warn-card h4 { color:#fca5a5; font-size:13px; margin-bottom:8px; letter-spacing:1px; }
+  .warn-card p { font-size:13px; color:rgba(255,255,255,0.6); line-height:1.8; }
+  .tip-card { background:rgba(79,142,247,0.06); border:1px solid rgba(79,142,247,0.2); border-radius:14px; padding:20px 24px; margin-bottom:16px; }
+  .tip-card h4 { color:#93c5fd; font-size:13px; margin-bottom:8px; letter-spacing:1px; }
+  .tip-card p { font-size:13px; color:rgba(255,255,255,0.6); line-height:1.8; }
+  .footer { text-align:center; padding:40px 24px; border-top:1px solid var(--border); color:rgba(255,255,255,0.2); font-size:12px; letter-spacing:2px; }
+  .footer strong { color:var(--accent); font-family:'Bebas Neue',sans-serif; font-size:14px; letter-spacing:3px; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+  @media(max-width:640px){ .points-grid{grid-template-columns:1fr;} .q-table{font-size:12px;} .q-table th,.q-table td{padding:9px 8px;} }
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="brand">세인학원 · SEIN ACADEMY</div>
+  <div class="hero-title">2026 <span>1학기</span> 1차시험</div>
+  <div class="hero-school">내덕중 2학년 수학</div>
+  <div class="hero-sub">4면 총 13문항 · 100점</div>
+  <div class="hero-badge">
+    <span class="badge badge-blue">선택형 6문항</span>
+    <span class="badge badge-gold">서술형 7문항</span>
+  </div>
+</div>
+<div class="container">
+
+  <div class="section">
+    <div class="section-title">OVERVIEW</div>
+    <div class="summary-grid">
+      <div class="sum-card"><div class="num"><span class="count-num" data-target="100">0</span><span>점</span></div><div class="label">총 배점</div></div>
+      <div class="sum-card"><div class="num"><span class="count-num" data-target="13">0</span><span>문</span></div><div class="label">총 문항 수</div></div>
+      <div class="sum-card"><div class="num"><span class="count-num" data-target="6">0</span><span>문</span></div><div class="label">선택형</div></div>
+      <div class="sum-card"><div class="num"><span class="count-num" data-target="7">0</span><span>문</span></div><div class="label">서술형</div></div>
+      <div class="sum-card"><div class="num"><span class="count-num" data-target="4">0</span><span>면</span></div><div class="label">시험지 분량</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">문항별 분석</div>
+    <div style="overflow-x:auto;">
+    <table class="q-table">
+      <thead><tr><th>번호</th><th>유형</th><th>단원 / 주제</th><th>출처</th><th>배점</th><th>난이도</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><span class="type type-선택">선택</span></td><td>순환소수와 유리수 — 유한소수로 나타낼 수 있는 분수</td><td><span class="src src-교과서">교과서</span></td><td><span class="ans">4</span></td><td><span class="diff diff-하">하</span></td></tr>
+        <tr><td>2</td><td><span class="type type-선택">선택</span></td><td>순환소수와 유리수 — x=3.232323… 설명 중 옳지 않은 것</td><td><span class="src src-교과서">교과서</span></td><td><span class="ans">5</span></td><td><span class="diff diff-하">하</span></td></tr>
+        <tr><td>3</td><td><span class="type type-선택">선택</span></td><td>지수법칙 — (a⁴)³ 간단히</td><td><span class="src src-교과서">교과서</span></td><td><span class="ans">3</span></td><td><span class="diff diff-하">하</span></td></tr>
+        <tr><td>4</td><td><span class="type type-선택">선택</span></td><td>지수법칙 — (x³−5x²)×3x 계산</td><td><span class="src src-교과서">교과서</span></td><td><span class="ans">4</span></td><td><span class="diff diff-하">하</span></td></tr>
+        <tr><td>5</td><td><span class="type type-선택">선택</span></td><td>부등식의 성질 — a>b일 때 옳은 것</td><td><span class="src src-교과서">교과서</span></td><td><span class="ans">5</span></td><td><span class="diff diff-하">하</span></td></tr>
+        <tr><td>6</td><td><span class="type type-선택">선택</span></td><td>일차부등식 — x−a≥2x−4, 자연수 해 1개일 때 a 범위</td><td><span class="src src-교과서">교과서</span></td><td><span class="ans">7</span></td><td><span class="diff diff-중">중</span></td></tr>
+        <tr class="highlight-row"><td>서1</td><td><span class="type type-서술">서술</span></td><td>순환소수 유리수 — 6/11을 소수로: (1) 순환마디 (2) 소수점 아래 51번째 자리 숫자</td><td><span class="src src-교과서">교과서</span></td><td><span class="ans">9</span></td><td><span class="diff diff-중">중</span></td></tr>
+        <tr class="highlight-row"><td>서2</td><td><span class="type type-서술">서술</span></td><td>순환소수 교과서응용 — x/130 유한소수, 기약분수 3/y, 60<x<90 → x−2y 값</td><td><span class="src src-교과서응용">교과서응용</span></td><td><span class="ans">11</span></td><td><span class="diff diff-상">상</span></td></tr>
+        <tr class="highlight-row"><td>서3</td><td><span class="type type-서술">서술</span></td><td>식의 계산 — A=(−2xy²)³×5x²y, B=(2x³y)³÷(−3x²y)², (1) A·B 각각 (2) A÷B</td><td><span class="src src-교과서">교과서</span></td><td><span class="ans">9</span></td><td><span class="diff diff-중">중</span></td></tr>
+        <tr class="highlight-row"><td>서4</td><td><span class="type type-서술">서술</span></td><td>식의 계산 — 다항식 A에서 빼야 할 것을 더했을 때 오류값 주어짐 → A 구하고 바른 계산</td><td><span class="src src-교과서">교과서</span></td><td><span class="ans">8</span></td><td><span class="diff diff-중">중</span></td></tr>
+        <tr class="highlight-row"><td>서5</td><td><span class="type type-서술">서술</span></td><td>지수법칙 — (1) 보기에서 자연수 a, b 구하기 (2) 4^(x+1)×(3^(x+1)+3^(x+2))=a×12^x, a 값</td><td><span class="src src-교과서응용">교과서응용</span></td><td><span class="ans">13</span></td><td><span class="diff diff-상">상</span></td></tr>
+        <tr class="highlight-row"><td>서6</td><td><span class="type type-서술">서술</span></td><td>일차부등식 교과서응용 — (2a−7)x<b, 해가 x>−1/2 (1) a 최댓값 (2) b 값</td><td><span class="src src-교과서응용">교과서응용</span></td><td><span class="ans">11</span></td><td><span class="diff diff-상">상</span></td></tr>
+        <tr class="highlight-row"><td>서7</td><td><span class="type type-서술">서술</span></td><td>부등식의 활용 — 형·동생 저금통 잔액 조건, 동생이 형보다 많아지는 시점 (몇 개월 후)</td><td><span class="src src-교과서응용">교과서응용</span></td><td><span class="ans">11</span></td><td><span class="diff diff-중상">중상</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">단원별 출제 비중</div>
+    <div class="topic-row"><div class="topic-label">순환소수와 유리수</div><div class="bar-bg"><div class="bar-fill" style="background:linear-gradient(90deg,#3b82f6,#60a5fa);" data-width="46"></div></div><div class="topic-count">4문</div></div>
+    <div class="topic-row"><div class="topic-label">지수법칙 / 식의 계산</div><div class="bar-bg"><div class="bar-fill" style="background:linear-gradient(90deg,#a855f7,#c084fc);" data-width="46"></div></div><div class="topic-count">4문</div></div>
+    <div class="topic-row"><div class="topic-label">일차부등식</div><div class="bar-bg"><div class="bar-fill" style="background:linear-gradient(90deg,#f97316,#fb923c);" data-width="38"></div></div><div class="topic-count">3문</div></div>
+    <div class="topic-row"><div class="topic-label">부등식의 활용</div><div class="bar-bg"><div class="bar-fill" style="background:linear-gradient(90deg,#22c55e,#4ade80);" data-width="15"></div></div><div class="topic-count">1문</div></div>
+    <div class="topic-row"><div class="topic-label">부등식의 성질</div><div class="bar-bg"><div class="bar-fill" style="background:linear-gradient(90deg,#f5c842,#fde68a);" data-width="15"></div></div><div class="topic-count">1문</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">난이도 · 배점 분포</div>
+    <div class="points-grid">
+      <div class="points-card">
+        <h4>난이도별 문항 수</h4>
+        <div class="points-row"><span><span class="diff diff-하">하</span></span><span class="pts">5문</span></div>
+        <div class="points-row"><span><span class="diff diff-중">중</span></span><span class="pts">4문</span></div>
+        <div class="points-row"><span><span class="diff diff-중상">중상</span></span><span class="pts">1문</span></div>
+        <div class="points-row"><span><span class="diff diff-상">상</span></span><span class="pts">3문 (서2·서5·서6)</span></div>
+      </div>
+      <div class="points-card">
+        <h4>배점 · 출처 구성</h4>
+        <div class="points-row"><span>3~7점 (선택형)</span><span class="pts">6문 · 28점</span></div>
+        <div class="points-row"><span>8~9점 (서술 기본)</span><span class="pts">3문 · 26점</span></div>
+        <div class="points-row"><span>11~13점 (서술 고배점)</span><span class="pts">4문 · 46점</span></div>
+        <div class="points-row"><span>출처 — 교과서</span><span class="pts">8문</span></div>
+        <div class="points-row"><span>출처 — 교과서응용</span><span class="pts">4문</span></div>
+        <div class="points-row"><span>최고 배점 문항</span><span class="pts">서5 · 13점</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">시험 특이사항</div>
+    <div class="special-card">
+      <h4>📌 타 학교 대비 구조적 차이</h4>
+      <p>
+        총 <strong>13문항</strong>으로 능동중2(16문)·월산중2(17문)보다 적고, 내덕중3과 동일한 구조. 서술형 고배점 문항(11~13점)이 4개나 되어 서술형 합산이 전체 약 <strong>72점</strong>. 한 문항 실수가 등급을 바꾸는 구조.<br><br>
+        지수법칙 응용(서5)이 선택형 2문항에 이어 서술 13점짜리로 집중 — 지수법칙이 이 시험의 사실상 핵심 단원. 내덕중은 2학년도 3학년과 동일하게 <strong>문항 수 적고 배점 집중</strong> 패턴.
+      </p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">지도 포인트</div>
+    <div class="warn-card">
+      <h4>⚠ 고난도 함정 구간</h4>
+      <p>
+        <strong>서5 (2) (7점) — 지수법칙 응용:</strong> 4^(x+1)×(3^(x+1)+3^(x+2)) = 4·4^x × 3^x(3+9) = 4·4^x·3^x·12 = 48·12^x → a=48. 분배법칙과 지수 분리를 동시에 써야 하며, 3^(x+2)=9·3^x 변환을 놓치면 전부 오답.<br><br>
+        <strong>서6 (1) (7점) — 부등식 계수 조건 역산:</strong> (2a−7)x < b, 해가 x > −1/2. 계수 2a−7의 부호에 따라 부등호가 바뀌므로 경우 분리 필수. x > −1/2가 되려면 2a−7 < 0 → a < 7/2 → 자연수 최댓값 a=3. 부호 처리 실수 다발.<br><br>
+        <strong>서2 (11점) — x/130 분수 조건 복합:</strong> 유한소수 조건 → 130=2×5×13의 13 약분 필요 → x는 13의 배수. 기약분수 3/y 조건 → 약분 후 분자=3. 60<x<90 범위에서 x=78 유일. x−2y=78−2×? 까지 단계별 역산.
+      </p>
+    </div>
+    <div class="tip-card">
+      <h4>💡 수업 연계 포인트</h4>
+      <p>
+        <strong>서1 (2) 소수점 아래 51번째 자리:</strong> 6/11=0.545454… 순환마디 54, 주기 2. 51÷2=25…1 → 첫 번째 자리 숫자 5. 나머지로 위치 결정하는 패턴 훈련에 최적.<br><br>
+        <strong>서4 (8점) — 다항식 오류 역산:</strong> A+(−2x²+x−3)=3x²−2x+5 → A=5x²−3x+8. 바른 계산: 5x²−3x+8−(−2x²+x−3)=7x²−4x+11. 덧셈·뺄셈 부호 역산 루틴 정착용.<br><br>
+        <strong>서7 (11점) — 저금통 활용:</strong> 형 8000+300n, 동생 4000+1000n. 동생>형 → 700n>4000 → n>40/7≈5.7 → 6개월 후. 실생활 맥락 일차부등식 첫 도입 문항으로 활용 가능.
+      </p>
+    </div>
+  </div>
+
+</div>
+<div class="footer">
+  <strong>세인학원</strong><br>
+  2026학년도 1학기 1차시험 · 내덕중 2학년 수학과 분석지<br>
+  본 자료는 세인학원 내부 교수 자료입니다.
+</div>
+<script>
+  const sections = document.querySelectorAll('.section');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+        e.target.querySelectorAll('.bar-fill').forEach(b=>{ const w=b.getAttribute('data-width'); if(w) b.style.width=w+'%'; });
+      }
+    });
+  },{threshold:0.1});
+  sections.forEach(s=>observer.observe(s));
+  function countUp(el){ const target=parseInt(el.getAttribute('data-target')); let cur=0; const step=target/60; const t=setInterval(()=>{ cur+=step; if(cur>=target){cur=target;clearInterval(t);} el.textContent=Math.floor(cur); },16); }
+  const co=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.querySelectorAll('.count-num').forEach(countUp); co.unobserve(e.target); } }); },{threshold:0.3});
+  document.querySelectorAll('.summary-grid').forEach(g=>co.observe(g));
+</script>
+</body>
+</html>
